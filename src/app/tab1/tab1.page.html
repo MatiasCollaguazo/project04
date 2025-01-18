@@ -14,42 +14,48 @@
   </ion-header>
 
   <!-- CARGA DE IMAGEN - INICIO -->
-        @if(imageReady()) {
-          <ion-card>
+  @if(imageReady()) {
+    <ion-card>
+      <img #image [src]="imageUrl()" alt="Imagen seleccionada" />
 
-            <img #image [src]="imageUrl()" alt="Imagen seleccionada" />
-           
-            <!-- CARGA DE PREDICCIÓN - INICIO -->
+      <!-- CARGA DE PREDICCIÓN - INICIO -->
       @if(modelLoaded()) {
-
         <div class="ion-text-center ion-padding-top ion-padding-bottom">
           <ion-button fill="outline" color="success" (click)="predict()">Predecir</ion-button>
         </div>
 
         <ion-list>
-          <ion-item>
-            <ion-label>Clases:  {{ classLabels  }} </ion-label>
-            <!-- Itere sobre la lista de predicciones -->
-            @for (item of predictions; track $index) {
-              <ion-item>
-                  <ion-label> {{  item?.className  }} :  {{  item?.probability | percent  }} </ion-label>
-                </ion-item>
-            }
+          <!-- Clases disponibles -->
+          <ion-item lines="none">
+            <ion-label class="class-label">
+              <strong>Clases:</strong> {{ classLabels }}
+            </ion-label>
           </ion-item>
-        </ion-list>
 
+          <!-- Iterar sobre predicciones -->
+          @for (item of predictions; track $index) {
+            <ion-item lines="inset">
+              <ion-label class="prediction-item">
+                <strong>{{ item?.className }}</strong>: {{ item?.probability | percent }}
+              </ion-label>
+            </ion-item>
+          }
+        </ion-list>
       }
       <!-- CARGA DE PREDICCIÓN - FIN -->
-
     </ion-card>
   }
   <!-- CARGA DE IMAGEN - FIN -->
-  <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
-  <!-- Disparo del evento click de fileInput -->
-  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-      <ion-fab-button (click)="fileInput.click()">
-          <ion-icon name="cloud-upload-outline"></ion-icon>
-      </ion-fab-button>
-  </ion-fab>
 
+  <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
+
+  <!-- BOTONES PARA SUBIR IMAGEN O USAR CÁMARA -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+    <ion-fab-button (click)="fileInput.click()">
+      <ion-icon name="cloud-upload-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="openCamera()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

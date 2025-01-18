@@ -1,0 +1,30 @@
+ion-list {
+    max-width: 100%; /* Asegura que la lista ocupe todo el ancho disponible */
+    margin: 0 auto;
+    padding: 0; /* Elimina márgenes y rellenos innecesarios */
+  }
+  
+  ion-item {
+    --inner-padding-start: 10px; /* Ajusta el espaciado a la izquierda */
+    --inner-padding-end: 10px; /* Ajusta el espaciado a la derecha */
+    font-size: 14px; /* Ajusta el tamaño del texto para dispositivos móviles */
+    text-align: start;
+  }
+  
+  .class-label {
+    white-space: normal; /* Permite que el texto se envuelva si es muy largo */
+    word-wrap: break-word; /* Rompe palabras largas para evitar desbordes */
+  }
+  
+  .prediction-item {
+    white-space: normal; /* El texto puede ocupar múltiples líneas si es necesario */
+    word-wrap: break-word;
+  }
+  
+  @media (max-width: 768px) {
+    /* Ajustes específicos para pantallas pequeñas */
+    ion-item {
+      font-size: 13px; /* Reduce un poco el tamaño del texto */
+    }
+  }
+  

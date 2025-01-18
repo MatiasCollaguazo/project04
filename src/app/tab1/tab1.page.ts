@@ -1,11 +1,11 @@
 import { ViewChild, ElementRef, Component, signal } from '@angular/core';
 import { IonCardContent, IonButton, IonList, IonItem, IonLabel, IonFab, IonFabButton, IonIcon, IonCard, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
-/* Importe la función y el ícono */
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { addIcons } from 'ionicons';
-import { cloudUploadOutline } from 'ionicons/icons';
+import { cloudUploadOutline, camera } from 'ionicons/icons';
 import { PercentPipe } from '@angular/common';
 import { TeachablemachineService } from '../services/teachablemachine.service';
-
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-tab1',
@@ -26,7 +26,7 @@ export class Tab1Page {
   modelLoaded = signal(false);
   classLabels: string[] = [];
   constructor(private teachableMachine: TeachablemachineService) {
-    addIcons({ cloudUploadOutline });
+    addIcons({ cloudUploadOutline, camera });
   }
 
   /* El método onSubmit para enviar los datos del formulario mediante el servicio */
@@ -60,12 +60,40 @@ export class Tab1Page {
 
   async predict() {
     try {
-        const image = this.imageElement.nativeElement;
-        this.predictions = await this.teachableMachine.predict(image);
+      const image = this.imageElement.nativeElement;
+      this.predictions = await this.teachableMachine.predict(image);
     } catch (error) {
-        console.error(error);
-        alert('Error al realizar la predicción.');
+      console.error(error);
+      alert('Error al realizar la predicción.');
     }
-}
+  }
 
+
+  async openCamera() {
+    try {
+      if (Capacitor.isNativePlatform()) {
+        const permissions = await Camera.requestPermissions();
+  
+        if (permissions.camera === 'denied') {
+          alert('Permiso de cámara denegado.');
+          return;
+        }
+      }
+  
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Camera,
+      });
+  
+      if (image.dataUrl) {
+        this.imageUrl.set(image.dataUrl);
+        this.imageReady.set(true);
+      }
+    } catch (error) {
+      console.error('Error al abrir la cámara:', error);
+      alert('No se pudo acceder a la cámara. Verifica los permisos.');
+    }
+  }
 }
