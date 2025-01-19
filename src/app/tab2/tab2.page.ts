@@ -1,11 +1,14 @@
 
 import { Component, OnInit} from '@angular/core';
 import {
-   IonCard, IonCardHeader, IonCardTitle, IonCardContent,
+   IonCard, IonButtons, IonCardHeader, IonCardTitle, IonCardContent,
    IonSelect, IonSelectOption, IonTextarea, IonButton,
    IonList, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle,IonAvatar , IonContent, IonIcon,
    IonNote,
-   IonCheckbox
+   IonCheckbox,
+   IonGrid,
+   IonRow,
+   IonCol
 } from '@ionic/angular/standalone';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -33,7 +36,7 @@ interface Event {
    templateUrl: 'tab2.page.html',
    styleUrls: ['tab2.page.scss'],
    standalone: true,
-   imports: [CommonModule, IonNote, IonCheckbox, ReactiveFormsModule, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon,
+   imports: [CommonModule, IonButtons, IonGrid, IonRow, IonCol, IonNote, IonCheckbox, ReactiveFormsModule, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon,
       IonSelect, IonSelectOption, IonTextarea, IonButton,
       IonList, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, IonAvatar, IonContent]
 })

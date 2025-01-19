@@ -27,32 +27,7 @@
 
   <!-- CARGA DE IMAGEN -->
   @if(imageReady()) {
-    <ion-card>
-      <img #image [src]="imageUrl()" alt="Imagen seleccionada" />
 
-      <!-- RESULTADOS DE PREDICCIÓN -->
-      @if(modelLoaded()) {
-        <div class="ion-text-center ion-padding-top ion-padding-bottom">
-          <ion-button fill="outline" color="success" (click)="predict()">Predecir</ion-button>
-        </div>
-
-        <ion-list>
-          <ion-item lines="none">
-            <ion-label class="class-label">
-              <strong>Clases Detectadas:</strong> {{ classLabels }}
-            </ion-label>
-          </ion-item>
-
-          @for (item of predictions; track $index) {
-            <ion-item lines="inset">
-              <ion-label class="prediction-item">
-                <strong>{{ item?.className }}</strong>: {{ item?.probability | percent }}
-              </ion-label>
-            </ion-item>
-          }
-        </ion-list>
-      }
-    </ion-card>
   }
 
   <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" hidden />

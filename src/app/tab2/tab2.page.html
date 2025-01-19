@@ -1,18 +1,25 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Agenda Familiar</ion-title>
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon slot="icon-only" name="call-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>¿Necesitas ayuda?</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="help-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-  <!-- Hora y Fecha -->
-  <div class="header-section ion-text-center">
+  <div class="time-display">
     <h1>{{ todayDate | date: 'EEEE, d MMMM' }}</h1>
     <h2>{{ currentTime }}</h2>
   </div>
 
-  <!-- Eventos Próximos -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Eventos Próximos</ion-card-title>
@@ -21,52 +28,34 @@
       <ion-list>
         <ion-item *ngFor="let event of upcomingEvents">
           <ion-label>
-            <h3>{{ event.title }}</h3>
+            <h2>{{ event.title }}</h2>
             <p>Propuesto por: {{ event.proposedBy }}</p>
+            <p>{{ event.date }} | {{ event.time }}</p>
           </ion-label>
-          <ion-note slot="end">
-            <p>{{ event.date }} - {{ event.time }}</p>
-            <p>+{{ event.attendees }}</p>
-          </ion-note>
+          <ion-note slot="end">+{{ event.attendees }}</ion-note>
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
 
-  <!-- Historial -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Historial</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let activity of activityHistory">
-          <ion-label>
-            <h3>{{ activity.description }}</h3>
-            <p>{{ activity.timeRange }}</p>
-          </ion-label>
-          <ion-icon name="checkmark-done-circle" slot="end"></ion-icon>
-        </ion-item>
-      </ion-list>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" *ngFor="let history of activityHistory">
+            <ion-item>
+              <ion-icon slot="start" name="time-outline"></ion-icon>
+              <ion-label>
+                <h3>{{ history.description }}</h3>
+                <p>{{ history.timeRange }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
-
-  <!-- Actividades de Hoy -->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Registro de Actividad</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let activity of todayActivities">
-          <ion-label>
-            <h3>{{ activity.description }}</h3>
-            <p>{{ activity.timeRange }}</p>
-          </ion-label>
-          <ion-checkbox slot="end" (ionChange)="addActivityToHistory(activity)"></ion-checkbox>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
-
 </ion-content>
