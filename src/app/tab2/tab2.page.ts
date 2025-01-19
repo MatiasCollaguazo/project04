@@ -11,8 +11,6 @@ import {
    IonCol
 } from '@ionic/angular/standalone';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ProviderService } from '../services/provider.service';
 import { CommonModule } from '@angular/common';
 
 

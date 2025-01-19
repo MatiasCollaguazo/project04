@@ -8,32 +8,26 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProviderService } from '../services/provider.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
    selector: 'app-tab3',
    templateUrl: 'tab3.page.html',
    styleUrls: ['tab3.page.scss'],
    standalone: true,
-   imports: [ReactiveFormsModule, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon,
+   imports: [CommonModule, ReactiveFormsModule, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon,
       IonSelect, IonSelectOption, IonTextarea, IonButton,
       IonList, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, IonAvatar, IonContent]
 })
 export class Tab3Page {
    dataList: any[] = [];
-   collectionName = 'reviews';
-   myForm: FormGroup = new FormGroup({
-      score: new FormControl("", Validators.required),
-      opinion: new FormControl("", Validators.required)
+   collectionName = 'feedback';
+   feedbackForm: FormGroup = new FormGroup({
+      emotion: new FormControl("", Validators.required),
    });
 
    constructor(private providerService: ProviderService) { }
-   onSubmit() {
-      this.providerService.createDocument(this.collectionName, this.myForm.value).then(() => {
-         this.myForm.reset()
-      });
-   }
 
-   /* Al inicializar, carga los datos  */
    ngOnInit() {
       this.loadData();
    }
@@ -43,4 +37,17 @@ export class Tab3Page {
          this.dataList = data;
       });
    }
+   
+  getEmoji(emotion: string): string {
+   const emojiMap: { [key: string]: string } = {
+     'anger': '😡',       // Enojo
+     'contempt': '😒',    // Desdén
+     'disgust': '🤢',     // Asco
+     'fear': '😨',        // Miedo
+     'happy': '😊',       // Felicidad
+     'neutral': '😐',     // Neutral
+     'sad': '😢',         // Tristeza
+   };
+   return emojiMap[emotion] || '❓';
+ }
 }

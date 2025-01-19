@@ -27,8 +27,57 @@
 
   <!-- CARGA DE IMAGEN -->
   @if(imageReady()) {
+  <ion-card class="ion-text-center">
+    <img #image [src]="imageUrl()" alt="Imagen seleccionada"/>
 
+    <!-- RESULTADOS DE PREDICCIÓN -->
+    @if(modelLoaded()) {
+    <div class="ion-text-center ion-padding-top ion-padding-bottom">
+      <ion-button fill="outline" color="success" (click)="predict()">Predecir</ion-button>
+    </div>
+
+    <ion-list>
+      <ion-item lines="none">
+        <ion-label class="class-label">
+          <strong>Clases Detectadas:</strong> {{ classLabels }}
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    }
+
+
+    <!-- EMOTIONS DISPLAY -->
+    <div class="emotion-container">
+      @for (item of predictions; track $index) {
+      <ion-card [ngClass]="{'emotion-card': true, 'highlight': item?.probability === highestProbability}">
+        <ion-card-content>
+          <div class="emoji">{{ getEmoji(item?.className) }}</div>
+          <div class="emotion-details">
+            <h3>{{ item?.className }}</h3>
+            <p>{{ item?.probability | percent }}</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+      }
+    </div>
+    <form [formGroup]="feedbackForm" (ngSubmit)="onFeedbackSubmit()">
+      <!-- Mostrar la emoción detectada -->
+      <ion-item>
+        <ion-label>
+          <strong>Emoción detectada:</strong> {{ feedbackForm.get('emotion')?.value || 'Ninguna' }}
+        </ion-label>
+      </ion-item>
+      
+      <!-- Botón para enviar retroalimentación -->
+      <ion-button type="submit" expand="block" [disabled]="!feedbackForm.valid">
+        Enviar Retroalimentación
+      </ion-button>
+    </form>
+  </ion-card>
   }
+
+
+
 
   <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
 
