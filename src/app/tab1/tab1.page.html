@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Teachable Machine
+      Registrar Emoción
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,30 +9,40 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Teachable Machine</ion-title>
+      <ion-title size="large">Registrar Emoción</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <!-- CARGA DE IMAGEN - INICIO -->
+  <!-- SECCIÓN DE INSTRUCCIONES -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Instrucciones</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      1. Carga una imagen desde tu dispositivo o utiliza la cámara.<br>
+      2. Presiona "Predecir" para identificar la emoción.<br>
+      3. Visualiza el resultado y su probabilidad.
+    </ion-card-content>
+  </ion-card>
+
+  <!-- CARGA DE IMAGEN -->
   @if(imageReady()) {
     <ion-card>
       <img #image [src]="imageUrl()" alt="Imagen seleccionada" />
 
-      <!-- CARGA DE PREDICCIÓN - INICIO -->
+      <!-- RESULTADOS DE PREDICCIÓN -->
       @if(modelLoaded()) {
         <div class="ion-text-center ion-padding-top ion-padding-bottom">
           <ion-button fill="outline" color="success" (click)="predict()">Predecir</ion-button>
         </div>
 
         <ion-list>
-          <!-- Clases disponibles -->
           <ion-item lines="none">
             <ion-label class="class-label">
-              <strong>Clases:</strong> {{ classLabels }}
+              <strong>Clases Detectadas:</strong> {{ classLabels }}
             </ion-label>
           </ion-item>
 
-          <!-- Iterar sobre predicciones -->
           @for (item of predictions; track $index) {
             <ion-item lines="inset">
               <ion-label class="prediction-item">
@@ -42,10 +52,8 @@
           }
         </ion-list>
       }
-      <!-- CARGA DE PREDICCIÓN - FIN -->
     </ion-card>
   }
-  <!-- CARGA DE IMAGEN - FIN -->
 
   <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
 

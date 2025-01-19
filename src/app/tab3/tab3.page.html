@@ -1,26 +1,71 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Acerca de
+      Compartamos Opiniones
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true">
 
-  <ion-card>
+  <!-- Sección de Retroalimentación -->
+  <ion-card class="ion-padding-bottom ion-margin-bottom">
+
     <ion-card-header>
-
-      <ion-card-title class="titulo">Descripción</ion-card-title>
-       
+      <ion-card-title>Ayúdanos a mejorar</ion-card-title>
     </ion-card-header>
-     
-    <ion-card-content>
-      <p id="descripcion">
-      Una aplicación móvil desarrollada en Angular Ionic es un software multiplataforma que utiliza el framework Angular para construir la lógica y la estructura de la aplicación, junto con el framework Ionic para crear una interfaz de usuario atractiva y funcional. Ionic proporciona componentes y herramientas para diseñar aplicaciones que se sienten y se ven nativas en dispositivos iOS y Android. La aplicación se puede desplegar tanto en la web como en tiendas de aplicaciones móviles. Utiliza tecnologías web como HTML, CSS y JavaScript, lo que facilita la reutilización de código y la implementación rápida.
-      </p>
-    </ion-card-content>
 
+    <ion-card-content class="ion-text-center">
+
+      <p>Tu opinión nos ayuda a entenderte mejor y a crear espacios que fortalezcan las relaciones familiares.</p>
+
+      <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+         
+        <ion-select formControlName="score" label="Calificación" placeholder="Selecciona una opción">
+          <ion-select-option value="excelente">Excelente</ion-select-option>
+          <ion-select-option value="bueno">Bueno</ion-select-option>
+          <ion-select-option value="regular">Regular</ion-select-option>
+          <ion-select-option value="malo">Malo</ion-select-option>
+        </ion-select>
+
+        <ion-textarea formControlName="opinion" label="¿Cómo podemos mejorar?" placeholder="Escribe tu opinión aquí"></ion-textarea>
+         
+        <ion-button type="submit" expand="block" [disabled]="!myForm.valid">Enviar Retroalimentación</ion-button>
+         
+      </form>
+
+    </ion-card-content>
   </ion-card>
 
+  <!-- Sección de Opiniones Compartidas -->
+  <ion-card class="ion-padding-bottom ion-margin-bottom">
+
+    <ion-card-header>
+      <ion-card-title>Lo que otros dicen</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-list>
+
+        <!-- Carga dinámica de opiniones -->
+        <ion-item *ngFor="let datum of dataList; let i = index">
+          <ion-avatar slot="start">
+            <ion-icon name="person-circle-outline"></ion-icon>
+          </ion-avatar>
+          <ion-label>
+            <h3>{{ datum?.score }}</h3>
+            <p>{{ datum?.opinion }}</p>
+          </ion-label>
+        </ion-item>
+
+        <!-- Mensaje si no hay opiniones -->
+        <ion-item *ngIf="dataList.length === 0">
+          <ion-label class="ion-text-center">Sé el primero en compartir tu opinión.</ion-label>
+        </ion-item>
+
+      </ion-list>
+
+    </ion-card-content>
+  </ion-card>
 </ion-content>
